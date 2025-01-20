@@ -1,5 +1,5 @@
 import { expect, expectTypeOf, test } from "vitest";
-import "@bodil/core";
+import "@bodil/monkey-business";
 
 import { DisposableContext, eventListener } from ".";
 
