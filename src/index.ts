@@ -95,6 +95,27 @@ export function animationFrame(fn: (time: number) => void): Disposable {
     return disposable;
 }
 
+export class DisposableAbortController implements AbortController, Disposable {
+    #controller = new AbortController();
+
+    get signal(): AbortSignal {
+        return this.#controller.signal;
+    }
+
+    abort(reason?: any): void {
+        this.#controller.abort(reason);
+        this.#controller = new AbortController();
+    }
+
+    [Symbol.dispose](): void {
+        this.abort("disposed");
+    }
+}
+
+export function abortController(): DisposableAbortController {
+    return new DisposableAbortController();
+}
+
 export class DisposableContext implements Disposable {
     readonly #disposables = new Set<Disposable>();
 
